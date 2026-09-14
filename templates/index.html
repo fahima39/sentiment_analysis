@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sentiment Analysis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script src="{{ url_for('static', filename='app.js') }}" defer></script>
+</head>
+<body>
+
+  <div class="page">
+    <div class="masthead">
+      <p class="kicker">Text classifier · logistic regression / TF-IDF</p>
+      <h1>What does this text feel like?</h1>
+    </div>
+
+    <div class="card">
+      <form method="POST">
+        <label for="text">Paste a review or sentence</label>
+        <textarea id="text" name="text" placeholder="Write your text here...">{{ text }}</textarea>
+        <div class="row">
+          <button type="submit">Analyze</button>
+        </div>
+      </form>
+
+      {% if sentiment %}
+        <div class="result">
+          <div class="verdict-line">
+            <span class="verdict-word {{ sentiment }}">
+              {% if sentiment == "positive" %}Positive{% else %}Negative{% endif %}
+            </span>
+            <span class="confidence-value">{{ confidence }}% confidence</span>
+          </div>
+          <div class="meter">
+            <div class="meter-fill {{ sentiment }}" data-confidence="{{ confidence }}"></div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+    <footer>trained on 50,000 IMDB reviews</footer>
+  </div>
+
+</body>
+</html>
